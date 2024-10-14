@@ -1,9 +1,15 @@
 import executeQuery from '../queries.js';
 
 class Users {
+  async createAllTables() {
+    const errors: [] = [];
+    await this.createTableUsersTypes().catch((error) => errors.push(error : MySqlError));
+    await this.createTableUsers().catch((error) => errors.push(error));
+  }
+
   async createTableUsersTypes() {
     const sql: string = `
-CREATE TABLE IF NOT EXISTS \`auvodb\`.\`auvo_user_types\` (
+        CREATE TABLE IF NOT EXISTS \`auvodb\`.\`auvo_user_types\` (
           \`userTypeId\` INT NOT NULL,
           \`description\` TEXT NULL DEFAULT NULL,
           PRIMARY KEY (\`userTypeId\`))

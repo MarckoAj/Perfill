@@ -1,45 +1,34 @@
+import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import pool from './conection.js';
 
-const executeQuery = (query: string, parametros: string[] = []): Promise<unknown> => {
-  return new Promise((resolve, reject) => {
-    pool.getConnection((error, connection) => {
-      if (error) {
-        reject(error);
-        return;
-      }
+type QueryResult = ResultSetHeader | RowDataPacket[];
 
-      connection.beginTransaction((err) => {
-        if (err) {
-          connection.release();
-          reject(err);
-          return;
-        }
+const executeQuery = async (
+  query: string,
+  parametros: (string | number)[] = [],
+): Promise<QueryResult> => {
+  let connection: PoolConnection | null = null;
 
-        connection.query(query, parametros, (erros, resultados) => {
-          if (erros) {
-            connection.rollback(() => {
-              connection.release();
-              reject(erros);
-            });
-            return;
-          }
+  try {
+    connection = await pool.getConnection();
 
-          connection.commit((err) => {
-            if (err) {
-              connection.rollback(() => {
-                connection.release();
-                reject(err);
-              });
-              return;
-            }
+    await connection.beginTransaction();
 
-            connection.release();
-            resolve(resultados);
-          });
-        });
-      });
-    });
-  });
+    const [resultados] = await connection.query<QueryResult>(query, parametros);
+
+    await connection.commit();
+
+    return resultados;
+  } catch (error) {
+    if (connection) {
+      await connection.rollback();
+    }
+    throw error;
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
 };
 
 export default executeQuery;
