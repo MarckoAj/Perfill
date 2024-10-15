@@ -1,12 +1,9 @@
 import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import pool from './conection.js';
 
-type QueryResult = ResultSetHeader | RowDataPacket[];
+export type QueryResult = ResultSetHeader | RowDataPacket[];
 
-const executeQuery = async (
-  query: string,
-  parametros: (string | number)[] = [],
-): Promise<QueryResult> => {
+const executeQuery = async (query: string, parametros: string[] = []): Promise<QueryResult> => {
   let connection: PoolConnection | null = null;
 
   try {
@@ -23,7 +20,9 @@ const executeQuery = async (
     if (connection) {
       await connection.rollback();
     }
-    throw error;
+    throw new Error(
+      `Database query error : ${error instanceof Error ? error.message : String(error)}`,
+    );
   } finally {
     if (connection) {
       connection.release();
