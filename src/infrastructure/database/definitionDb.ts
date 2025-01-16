@@ -1,5 +1,6 @@
 import auvoUsersTables from './tables/auvoUsersTables.js';
 import auvoSegmentsTables from './tables/auvoSegmentsTables.js';
+import auvoGroupsTables from './tables/auvoGroupsTables.js';
 
 class DefinitionAuvoDb {
   async init(): Promise<void> {
@@ -17,6 +18,7 @@ class DefinitionAuvoDb {
     try {
       await auvoUsersTables.createAllTables();
       await auvoSegmentsTables.createAllTables();
+      await auvoGroupsTables.createAllTables();
     } catch (error) {
       console.log(error);
       throw error;

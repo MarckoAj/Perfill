@@ -6,7 +6,7 @@ class SegmentsTablesDefinitions {
       await this.createTableSegments();
     } catch (error) {
       throw new Error(
-        `Error creating Users tables : ${error instanceof Error ? error.message : String(error)}`,
+        `Error creating Segments tables : ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
