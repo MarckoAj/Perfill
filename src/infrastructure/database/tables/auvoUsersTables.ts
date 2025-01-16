@@ -1,6 +1,6 @@
 import executeQuery, { QueryResult } from '../queries.js';
 
-class Users {
+class UsersTablesDefinitions {
   async createAllTables(): Promise<void> {
     try {
       await this.createTableUsersTypes();
@@ -14,7 +14,7 @@ class Users {
 
   async createTableUsersTypes(): Promise<QueryResult> {
     const sql: string = `
-      CREATE TABLE IF NOT EXISTS \`auvodb\`.\`auvo_user_types\` (
+      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_user_types\` (
         \`userTypeId\` INT NOT NULL,
         \`description\` TEXT NULL DEFAULT NULL,
         PRIMARY KEY (\`userTypeId\`)
@@ -27,7 +27,7 @@ class Users {
 
   async createTableUsers(): Promise<QueryResult> {
     const sql: string = `
-      CREATE TABLE IF NOT EXISTS \`auvodb\`.\`auvo_users\` (
+      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_users\` (
         \`userId\` INT NOT NULL,
         \`externalId\` VARCHAR(200) NULL DEFAULT NULL,
         \`name\` VARCHAR(100) NULL DEFAULT NULL,
@@ -41,9 +41,9 @@ class Users {
         \`active\` tinyint,
         PRIMARY KEY (\`userId\`),
         INDEX \`fk_users_usersTypes_idx\` (\`fk_userType\` ASC) VISIBLE,
-        CONSTRAINT \`fk_users_usersTypes\`
+        CONSTRAINT \`fk_users_userTypes\`
           FOREIGN KEY (\`fk_userType\`)
-          REFERENCES \`auvodb\`.\`auvo_user_types\` (\`userTypeId\`)
+          REFERENCES \`perfilldb\`.\`auvo_user_types\` (\`userTypeId\`)
           ON DELETE RESTRICT
       )
       ENGINE = InnoDB
@@ -53,4 +53,4 @@ class Users {
   }
 }
 
-export default new Users();
+export default new UsersTablesDefinitions();
