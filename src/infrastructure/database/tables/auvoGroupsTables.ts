@@ -14,8 +14,7 @@ class GroupsTablesDefinitions {
   async createTableGroups(): Promise<QueryResult> {
     const sql = `CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_groups\` (
             \`groupId\` INT NOT NULL,
-            \`description\` VARCHAR(100) NULL,
-            \`registrationDate\` DATETIME NULL,
+            \`description\` TEXT NULL,
             PRIMARY KEY (\`groupId\`))
           ENGINE = InnoDB;`;
     return executeQuery(sql);

@@ -27,7 +27,7 @@ async function main() {
       console.error('Erro ao criar tabelas:', error);
     }
   } else {
-    console.log('Conexão ao banco de dados falhou. Criação de tabelas não executada.');
+    console.error('Conexão ao banco de dados falhou. Criação de tabelas não executada.');
   }
 }
 
