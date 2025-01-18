@@ -15,12 +15,12 @@ class QuestionnariesTablesDefinitions {
   async createTableQuestionnaries(): Promise<QueryResult> {
     const sql = `
     CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_questionnaires\` (
-      \`questionaryId\` INT NOT NULL,
+      \`questionnaireId\` INT NOT NULL,
      \`description\` TEXT NULL,
       \`header\` TEXT NULL,
       \`footer\` TEXT NULL,
       \`creationDate\` DATETIME NULL,
-      PRIMARY KEY (\`questionaryId\`))
+      PRIMARY KEY (\`questionnaireId\`))
        ENGINE = InnoDB;`;
 
     return executeQuery(sql);
@@ -29,20 +29,24 @@ class QuestionnariesTablesDefinitions {
   async createTableQuestionnariesQuestions(): Promise<QueryResult> {
     const sql = `
     CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_questionnaire_questions\` (
-      \`questionId\` INT NOT NULL,
-      \`fk_questionaryId\` INT NOT NULL,
-      \`answerType\` INT NULL,
-      \`description\` TEXT NULL,
-      \`subtitle\` TEXT NULL,
-      \`requiredAnswer\` TINYINT NOT NULL,
-      \`creationDate\` DATETIME NULL,
-      PRIMARY KEY (\`fk_questionaryId\`, \`questionId\`),
-      CONSTRAINT \`fk_questionnaires_has_questions_questionnaires1\`
-        FOREIGN KEY (\`fk_questionaryId\`)
-        REFERENCES \`perfilldb\`.\`auvo_questionnaires\` (\`questionaryId\`)
-        ON DELETE NO ACTION
-        ON UPDATE NO ACTION)
-      ENGINE = InnoDB;`;
+  \`questionId\` INT NOT NULL,
+  \`questionnaireId\` INT NOT NULL,
+  \`answerType\` INT NULL,
+  \`description\` TEXT NULL,
+  \`subtitle\` TEXT NULL,
+  \`requiredAnswer\` TINYINT NOT NULL,
+  \`creationDate\` DATETIME NULL,
+  INDEX \`fk_questionnaires_has_questions_questionnaires1_idx\` (\`questionnaireId\`),
+  PRIMARY KEY (\`questionId\`),  -- Definir questionId como chave primária
+  CONSTRAINT \`fk_questionnaires_has_questions_questionnaires1\`
+    FOREIGN KEY (\`questionnaireId\`)
+    REFERENCES \`perfilldb\`.\`auvo_questionnaires\` (\`questionnaireId\`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
+ENGINE = InnoDB;
+
+`;
 
     return executeQuery(sql);
   }
