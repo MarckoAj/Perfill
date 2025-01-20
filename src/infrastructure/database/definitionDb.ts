@@ -5,6 +5,7 @@ import auvoCustomersTables from './tables/auvoCustomersTables.js';
 import auvoQuestionnariesTables from './tables/auvoQuestionnariesTables.js';
 import auvoTasksTables from './tables/auvoTasksTables.js';
 import userSeeders from './seeders/userSeeders.js';
+import segmentSeeders from './seeders/segmentSeeders.js';
 
 class DefinitionAuvoDb {
   async init(): Promise<void> {
@@ -35,6 +36,7 @@ class DefinitionAuvoDb {
   async seedData(): Promise<void> {
     try {
       await userSeeders.addAllSeeders();
+      await segmentSeeders.addAllSeeders();
     } catch (error) {
       console.log(error);
       throw error;
