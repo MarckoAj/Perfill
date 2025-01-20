@@ -29,12 +29,12 @@ class UsersTablesDefinitions {
     const sql: string = `
       CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_users\` (
         \`userId\` INT NOT NULL,
-        \`externalId\` VARCHAR(200) NULL DEFAULT NULL,
+        \`fk_userType\` INT NOT NULL,
         \`name\` VARCHAR(100) NULL DEFAULT NULL,
+        \`externalId\` VARCHAR(200) NULL DEFAULT NULL,
         \`login\` VARCHAR(100) NULL DEFAULT NULL,
         \`email\` VARCHAR(100) NULL DEFAULT NULL,
         \`jobPosition\` VARCHAR(100) NULL DEFAULT NULL,
-        \`fk_userType\` INT NOT NULL,
         \`address\` VARCHAR(255) NULL DEFAULT NULL,
         \`basePoint\` POINT NULL DEFAULT NULL,
         \`registrationDate\` DATETIME NULL,

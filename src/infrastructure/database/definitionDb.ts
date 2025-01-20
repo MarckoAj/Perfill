@@ -4,13 +4,15 @@ import auvoGroupsTables from './tables/auvoGroupsTables.js';
 import auvoCustomersTables from './tables/auvoCustomersTables.js';
 import auvoQuestionnariesTables from './tables/auvoQuestionnariesTables.js';
 import auvoTasksTables from './tables/auvoTasksTables.js';
+import userSeeders from './seeders/userSeeders.js';
+
 class DefinitionAuvoDb {
   async init(): Promise<void> {
     try {
       await this.createTables();
       // await this.updateTriggers();
       // await this.updateDbFunctions();
-      // await this.seedData();
+      await this.seedData();
     } catch (error) {
       console.log(error);
     }
@@ -30,7 +32,14 @@ class DefinitionAuvoDb {
     }
   }
 
-  // async seedData() {}
+  async seedData(): Promise<void> {
+    try {
+      await userSeeders.addAllSeeders();
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 
   // async updateDbFunctions() {}
 
