@@ -1,5 +1,5 @@
 import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-import pool from './conection.js';
+import pool from './conection.ts';
 
 export type QueryResult = ResultSetHeader | RowDataPacket[];
 
