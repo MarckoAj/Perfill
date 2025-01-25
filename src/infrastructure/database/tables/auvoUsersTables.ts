@@ -1,0 +1,56 @@
+import executeQuery, { QueryResult } from '../queries.js';
+
+class UsersTablesDefinitions {
+  async createAllTables(): Promise<void> {
+    try {
+      await this.createTableUsersTypes();
+      await this.createTableUsers();
+    } catch (error) {
+      throw new Error(
+        `Error creating Users tables : ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
+
+  async createTableUsersTypes(): Promise<QueryResult> {
+    const sql: string = `
+      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_user_types\` (
+        \`userTypeId\` INT NOT NULL,
+        \`description\` TEXT NULL DEFAULT NULL,
+        PRIMARY KEY (\`userTypeId\`)
+      )
+      ENGINE = InnoDB
+      DEFAULT CHARACTER SET = utf8mb4;
+    `;
+    return executeQuery(sql);
+  }
+
+  async createTableUsers(): Promise<QueryResult> {
+    const sql: string = `
+      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_users\` (
+        \`userId\` INT NOT NULL,
+        \`fk_userType\` INT NOT NULL,
+        \`name\` VARCHAR(100) NULL DEFAULT NULL,
+        \`externalId\` VARCHAR(200) NULL DEFAULT NULL,
+        \`login\` VARCHAR(100) NULL DEFAULT NULL,
+        \`email\` VARCHAR(100) NULL DEFAULT NULL,
+        \`jobPosition\` VARCHAR(100) NULL DEFAULT NULL,
+        \`address\` VARCHAR(255) NULL DEFAULT NULL,
+        \`basePoint\` POINT NULL DEFAULT NULL,
+        \`registrationDate\` DATETIME NULL,
+        \`active\` tinyint,
+        PRIMARY KEY (\`userId\`),
+        INDEX \`fk_users_usersTypes_idx\` (\`fk_userType\` ASC) VISIBLE,
+        CONSTRAINT \`fk_users_userTypes\`
+          FOREIGN KEY (\`fk_userType\`)
+          REFERENCES \`perfilldb\`.\`auvo_user_types\` (\`userTypeId\`)
+          ON DELETE RESTRICT
+      )
+      ENGINE = InnoDB
+      DEFAULT CHARACTER SET = utf8mb4;
+    `;
+    return executeQuery(sql);
+  }
+}
+
+export default new UsersTablesDefinitions();
