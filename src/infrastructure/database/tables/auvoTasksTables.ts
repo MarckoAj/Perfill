@@ -19,7 +19,7 @@ class TasksTablesDefinitions {
 
   async createTableAuvoTaskStatus(): Promise<QueryResult> {
     const sql = `
-      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_task_status\` (
+      CREATE TABLE IF NOT EXISTS \`auvo_task_status\` (
         \`taskStatusId\` INT NOT NULL,
         \`statusDescription\` VARCHAR(100) NULL,
         PRIMARY KEY (\`taskStatusId\`)
@@ -30,7 +30,7 @@ class TasksTablesDefinitions {
 
   async createTableAuvoTaskPriorities(): Promise<QueryResult> {
     const sql = `
-      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_task_priorities\` (
+      CREATE TABLE IF NOT EXISTS \`auvo_task_priorities\` (
         \`taskPriorityId\` INT NOT NULL,
         \`priorityDescription\` VARCHAR(100) NULL,
         PRIMARY KEY (\`taskPriorityId\`)
@@ -40,7 +40,7 @@ class TasksTablesDefinitions {
   }
 
   async createTableAuvoTaskTypes(): Promise<QueryResult> {
-    const sql = `CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_task_types\` (
+    const sql = `CREATE TABLE IF NOT EXISTS \`auvo_task_types\` (
   \`taskTypeId\` INT NOT NULL,
   \`userCreatorId\` INT NOT NULL,
   \`standardQuestionnaireId\` INT NOT NULL,
@@ -53,10 +53,10 @@ class TasksTablesDefinitions {
   INDEX \`idx_standardQuestionnaireId\` (\`standardQuestionnaireId\` ASC),
   CONSTRAINT \`fk_task_types_questionnaires\`
     FOREIGN KEY (\`standardQuestionnaireId\`)
-    REFERENCES \`perfilldb\`.\`auvo_questionnaires\` (\`questionnaireId\`),
+    REFERENCES \`auvo_questionnaires\` (\`questionnaireId\`),
   CONSTRAINT \`fk_task_types_users\`
     FOREIGN KEY (\`userCreatorId\`)
-    REFERENCES \`perfilldb\`.\`auvo_users\` (\`userId\`)
+    REFERENCES \`auvo_users\` (\`userId\`)
 ) ENGINE = InnoDB;
 `;
     return executeQuery(sql);
@@ -64,7 +64,7 @@ class TasksTablesDefinitions {
 
   async createTableAuvoTaskTypeRequirements(): Promise<QueryResult> {
     const sql = `
-      CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_task_type_requirements\` (
+      CREATE TABLE IF NOT EXISTS \`auvo_task_type_requirements\` (
         \`taskTypeRequirementId\` INT NOT NULL AUTO_INCREMENT,
         \`fk_TaskTypeId\` INT NOT NULL,
         \`fillReport\` TEXT NULL,
@@ -76,7 +76,7 @@ class TasksTablesDefinitions {
         UNIQUE INDEX \`taskTypeId_unique\` (\`fk_TaskTypeId\` ASC),
         CONSTRAINT \`fk_task_type_requirements_task_types\`
           FOREIGN KEY (\`fk_TaskTypeId\`)
-          REFERENCES \`perfilldb\`.\`auvo_task_types\` (\`taskTypeId\`)
+          REFERENCES \`auvo_task_types\` (\`taskTypeId\`)
           ON DELETE NO ACTION
           ON UPDATE NO ACTION
       ) ENGINE = InnoDB;
@@ -85,7 +85,7 @@ class TasksTablesDefinitions {
   }
 
   async createTableAuvoTasks(): Promise<QueryResult> {
-    const sql = `CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_tasks\` (
+    const sql = `CREATE TABLE IF NOT EXISTS \`auvo_tasks\` (
     \`taskId\` INT NOT NULL,
     \`fk_userFromId\` INT NOT NULL,
     \`fk_userToId\` INT NOT NULL,
@@ -126,32 +126,32 @@ class TasksTablesDefinitions {
     INDEX \`fk_tasks_auvo_task_types1_idx\` (\`fk_taskTypeId\`),
     CONSTRAINT \`fk_tasks_auvo_users_auvo1\`
       FOREIGN KEY (\`fk_userFromId\`)
-      REFERENCES \`perfilldb\`.\`auvo_users\` (\`userId\`)
+      REFERENCES \`auvo_users\` (\`userId\`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
     CONSTRAINT \`fk_tasks_auvo_users_auvo2\`
       FOREIGN KEY (\`fk_userToId\`)
-      REFERENCES \`perfilldb\`.\`auvo_users\` (\`userId\`)
+      REFERENCES \`auvo_users\` (\`userId\`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
     CONSTRAINT \`fk_tasks_auvo_customers_auvo1\`
       FOREIGN KEY (\`fk_customerId\`)
-      REFERENCES \`perfilldb\`.\`auvo_customers\` (\`customerId\`)
+      REFERENCES \`auvo_customers\` (\`customerId\`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
     CONSTRAINT \`fk_tasks_auvo_task_status1\`
       FOREIGN KEY (\`fk_taskStatusId\`)
-      REFERENCES \`perfilldb\`.\`auvo_task_status\` (\`taskStatusId\`)
+      REFERENCES \`auvo_task_status\` (\`taskStatusId\`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
     CONSTRAINT \`fk_tasks_auvo_task_priorities1\`
       FOREIGN KEY (\`fk_taskPriorityId\`)
-      REFERENCES \`perfilldb\`.\`auvo_task_priorities\` (\`taskPriorityId\`)
+      REFERENCES \`auvo_task_priorities\` (\`taskPriorityId\`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
     CONSTRAINT \`fk_tasks_auvo_task_types1\`
       FOREIGN KEY (\`fk_taskTypeId\`)
-      REFERENCES \`perfilldb\`.\`auvo_task_types\` (\`taskTypeId\`)
+      REFERENCES \`auvo_task_types\` (\`taskTypeId\`)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
@@ -160,7 +160,7 @@ class TasksTablesDefinitions {
   }
 
   async createTableAuvoTaskAttachments(): Promise<QueryResult> {
-    const sql = `CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_task_attachments\`(
+    const sql = `CREATE TABLE IF NOT EXISTS \`auvo_task_attachments\`(
     \`attachmentId\` INT NOT NULL AUTO_INCREMENT,
     \`fk_taskId\` INT NOT NULL,
     \`url\` MEDIUMTEXT NULL DEFAULT NULL,
@@ -172,7 +172,7 @@ class TasksTablesDefinitions {
     INDEX \`fk_task_attachments_tasks1_idx\` (\`fk_taskId\`),
     CONSTRAINT \`fk_task_attachments_tasks1\`
     FOREIGN KEY (\`fk_taskId\`)
-    REFERENCES \`perfilldb\`.\`auvo_tasks\` (\`taskId\`)
+    REFERENCES \`auvo_tasks\` (\`taskId\`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
     )
@@ -183,7 +183,7 @@ class TasksTablesDefinitions {
   }
   async createTableAuvoQuestionnairesAnswers(): Promise<QueryResult> {
     const sql = `
-  CREATE TABLE IF NOT EXISTS \`perfilldb\`.\`auvo_questionnaire_answers\`(
+  CREATE TABLE IF NOT EXISTS \`auvo_questionnaire_answers\`(
     \`replyId\` INT NOT NULL,
     \`fk_questionId\` INT NOT NULL,
     \`fk_taskId\` INT NOT NULL,
@@ -194,12 +194,12 @@ class TasksTablesDefinitions {
     INDEX \`fk_questionnaires_answers_questionnaires_questions1_idx\` (\`fk_questionId\`),  -- Índice para a coluna fk_questionId
     CONSTRAINT \`fk_questionnaires_answers_questionnaires_questions1\`
       FOREIGN KEY (\`fk_questionId\`)
-      REFERENCES \`perfilldb\`.\`auvo_questionnaire_questions\` (\`questionId\`)
+      REFERENCES \`auvo_questionnaire_questions\` (\`questionId\`)
       ON DELETE CASCADE
       ON UPDATE NO ACTION,
     CONSTRAINT \`fk_questionnaires_answers_tasks1\`
       FOREIGN KEY (\`fk_taskId\`)
-      REFERENCES \`perfilldb\`.\`auvo_tasks\` (\`taskId\`)
+      REFERENCES \`auvo_tasks\` (\`taskId\`)
       ON DELETE CASCADE
       ON UPDATE NO ACTION
 )
