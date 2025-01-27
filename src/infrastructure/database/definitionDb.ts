@@ -1,14 +1,14 @@
-import auvoUsersTables from './tables/auvoUsersTables.js';
-import auvoSegmentsTables from './tables/auvoSegmentsTables.js';
-import auvoGroupsTables from './tables/auvoGroupsTables.js';
-import auvoCustomersTables from './tables/auvoCustomersTables.js';
-import auvoQuestionnariesTables from './tables/auvoQuestionnariesTables.js';
-import auvoTasksTables from './tables/auvoTasksTables.js';
+import auvoUsersTables from './tables/auvoUsersTables.ts';
+import auvoSegmentsTables from './tables/auvoSegmentsTables.ts';
+import auvoGroupsTables from './tables/auvoGroupsTables.ts';
+import auvoCustomersTables from './tables/auvoCustomersTables.ts';
+import auvoQuestionnariesTables from './tables/auvoQuestionnariesTables.ts';
+import auvoTasksTables from './tables/auvoTasksTables.ts';
 
-import userSeeders from './seeders/userSeeders.js';
-import segmentSeeders from './seeders/segmentSeeders.js';
-import questionnarieSeeders from './seeders/questionnarieSeeders.js';
-import taskSeeders from './seeders/taskSeeders.js';
+import userSeeders from './seeders/userSeeders.ts';
+import segmentSeeders from './seeders/segmentSeeders.ts';
+import questionnarieSeeders from './seeders/questionnarieSeeders.ts';
+import taskSeeders from './seeders/taskSeeders.ts';
 
 class DefinitionAuvoDb {
   async init(): Promise<void> {

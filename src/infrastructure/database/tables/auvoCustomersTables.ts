@@ -1,4 +1,4 @@
-import executeQuery, { QueryResult } from '../queries.js';
+import executeQuery, { QueryResult } from '../queries.ts';
 
 class CustomersTablesDefinitions {
   async createAllTables(): Promise<void> {
