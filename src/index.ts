@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
-import pool from './infrastructure/database/conection.js';
+import { getPool } from './infrastructure/database/conection.js';
 import definitionDb from './infrastructure/database/definitionDb.js';
 
 dotenv.config();
 
 async function testConnection(): Promise<boolean> {
   try {
+    const pool = getPool();
     const connection = await pool.getConnection();
     console.log('Conexão com o banco de dados bem sucedida');
     connection.release();

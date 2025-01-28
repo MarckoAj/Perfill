@@ -30,7 +30,7 @@ class CustomersTablesDefinitions {
         \`dateLastUpdate\` DATETIME NULL,
         \`creationDate\` DATETIME NULL,
         PRIMARY KEY (\`customerId\`),
-        CONSTRAINT \`fk_customers_segments1\`
+        CONSTRAINT \`fk_customers_segments2\`
           FOREIGN KEY (\`fk_segmentId\`)
           REFERENCES \`auvo_segments\` (\`segmentId\`)
           ON DELETE NO ACTION

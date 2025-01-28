@@ -1,5 +1,5 @@
 import { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-import pool from './conection.ts';
+import { getPool } from './conection.ts';
 
 export type QueryResult = ResultSetHeader | RowDataPacket[];
 
@@ -7,6 +7,7 @@ const executeQuery = async (query: string, parametros: string[] = []): Promise<Q
   let connection: PoolConnection | null = null;
 
   try {
+    const pool = getPool();
     connection = await pool.getConnection();
 
     await connection.beginTransaction();
