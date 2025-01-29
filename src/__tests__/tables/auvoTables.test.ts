@@ -13,11 +13,17 @@ import {
 } from '../../utils/testsDbfunctions.ts';
 
 (async () => {
+  let originalDBName: string | undefined;
+
   beforeAll(async () => {
-    await definitionDb.init();
+    await executeQuery(`CREATE DATABASE IF NOT EXISTS ${process.env.DBNAME}`);
+    await definitionDb.createTables();
+    originalDBName = process.env.DBNAME;
   });
 
   afterAll(async () => {
+    process.env.DBNAME = originalDBName;
+    await executeQuery(`DROP DATABASE IF EXISTS ${process.env.DBNAME}`);
     if (pool) {
       await pool.end();
     }
@@ -68,6 +74,17 @@ import {
       )) as RowDataPacket[];
       const columnNames = result.map((item) => item.COLUMN_NAME);
       expect(columnNames).toEqual(columnsList.sort());
+    });
+
+    describe('Teste de erro na criação das tabelas Usuarios', () => {
+      it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
+        process.env.DBNAME = 'bancoInexistente';
+        try {
+          await definitionDb.createTables();
+        } catch (error) {
+          expect(error instanceof Error).toBeTruthy();
+        }
+      });
     });
   });
 })();

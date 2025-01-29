@@ -9,5 +9,7 @@ const sqlTableCheck = (tableName: string, schemaName: string): string => {
 const sqlColumnCheck = (tableName: string, schemaName: string): string => {
   return `SELECT COLUMN_NAME FROM information_schema.columns WHERE TABLE_NAME = '${tableName}' AND TABLE_SCHEMA = '${schemaName}'`;
 };
-
-export { isRowDataPacketArray, sqlTableCheck, sqlColumnCheck };
+const sqlDropAllTables = (tableName: string): string => {
+  return `SET FOREIGN_KEY_CHECKS = 0;SELECT CONCAT('DROP TABLE IF EXISTS ', TABLE_NAME, ';') FROM information_schema.tables WHERE table_schema = '${tableName}';SET FOREIGN`;
+};
+export { isRowDataPacketArray, sqlTableCheck, sqlColumnCheck, sqlDropAllTables };
