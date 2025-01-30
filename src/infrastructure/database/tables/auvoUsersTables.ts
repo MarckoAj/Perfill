@@ -6,8 +6,11 @@ class UsersTablesDefinitions {
       await this.createTableUsersTypes();
       await this.createTableUsers();
     } catch (error) {
+      console.error(
+        `Erro ao criar tabelas de usuários: ${error instanceof Error ? error.message : String(error)}`,
+      );
       throw new Error(
-        `Error creating Users tables: ${error instanceof Error ? error.message : String(error)}`,
+        `Falha na criação das tabelas de usuários: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }

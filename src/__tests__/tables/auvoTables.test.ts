@@ -5,6 +5,8 @@ import definitionDb from '../../infrastructure/database/definitionDb.ts';
 import { pool } from '../../infrastructure/database/conection.ts';
 import executeQuery from '../../infrastructure/database/queries.ts';
 import { RowDataPacket } from 'mysql2/promise';
+import auvoUsersTables from '../../infrastructure/database/tables/auvoUsersTables.ts';
+import { clearDbTables } from '../../utils/testsDbfunctions.ts';
 
 import {
   sqlTableCheck,
@@ -16,14 +18,14 @@ import {
   let originalDBName: string | undefined;
 
   beforeAll(async () => {
-    await executeQuery(`CREATE DATABASE IF NOT EXISTS ${process.env.DBNAME}`);
-    await definitionDb.createTables();
     originalDBName = process.env.DBNAME;
+    await definitionDb.createTables();
   });
 
   afterAll(async () => {
     process.env.DBNAME = originalDBName;
-    await executeQuery(`DROP DATABASE IF EXISTS ${process.env.DBNAME}`);
+    await clearDbTables(process.env.DBNAME as string);
+
     if (pool) {
       await pool.end();
     }
@@ -79,10 +81,14 @@ import {
     describe('Teste de erro na criação das tabelas Usuarios', () => {
       it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
         process.env.DBNAME = 'bancoInexistente';
+
         try {
-          await definitionDb.createTables();
+          await auvoUsersTables.createAllTables();
         } catch (error) {
           expect(error instanceof Error).toBeTruthy();
+          if (error instanceof Error) {
+            expect(error.message).toContain('Falha na criação das tabelas de usuários');
+          }
         }
       });
     });
