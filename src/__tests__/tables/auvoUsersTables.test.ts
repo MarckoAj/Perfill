@@ -5,8 +5,8 @@ import definitionDb from '../../infrastructure/database/definitionDb.ts';
 import { pool } from '../../infrastructure/database/conection.ts';
 import executeQuery from '../../infrastructure/database/queries.ts';
 import { RowDataPacket } from 'mysql2/promise';
-import auvoUsersTables from '../../infrastructure/database/tables/auvoUsersTables.ts';
 import { clearDbTables } from '../../utils/testsDbfunctions.ts';
+import auvoUsersTables from '../../infrastructure/database/tables/auvoUsersTables.ts';
 
 import {
   sqlTableCheck,
@@ -49,7 +49,7 @@ import {
     });
   });
 
-  describe('Teste de criação de tabelas auvo_users', () => {
+  describe('Verifica criação de tabelas auvo_users', () => {
     it(`Deve verificar se a tabela "auvo_users" existe no banco de dados`, async () => {
       const sql = sqlTableCheck('auvo_users', process.env.DBNAME as string);
       const result = (await executeQuery(sql)) as RowDataPacket[];
@@ -77,20 +77,20 @@ import {
       const columnNames = result.map((item) => item.COLUMN_NAME);
       expect(columnNames).toEqual(columnsList.sort());
     });
+  });
 
-    describe('Teste de erro na criação das tabelas Usuarios', () => {
-      it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
-        process.env.DBNAME = 'bancoInexistente';
+  describe('Teste de erro na criação das tabelas Usuarios', () => {
+    it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
+      process.env.DBNAME = 'bancoInexistente';
 
-        try {
-          await auvoUsersTables.createAllTables();
-        } catch (error) {
-          expect(error instanceof Error).toBeTruthy();
-          if (error instanceof Error) {
-            expect(error.message).toContain('Falha na criação das tabelas de usuários');
-          }
+      try {
+        await auvoUsersTables.createAllTables();
+      } catch (error) {
+        expect(error instanceof Error).toBeTruthy();
+        if (error instanceof Error) {
+          expect(error.message).toContain('Falha na criação das tabelas de usuários');
         }
-      });
+      }
     });
   });
 })();
