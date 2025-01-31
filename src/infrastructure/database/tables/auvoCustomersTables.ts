@@ -6,7 +6,7 @@ class CustomersTablesDefinitions {
       await this.createTableCustomers();
     } catch (error) {
       throw new Error(
-        `Error creating Customers tables: ${error instanceof Error ? error.message : String(error)}`,
+        `Falha na criação das tabelas de Customers: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
