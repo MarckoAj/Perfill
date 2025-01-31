@@ -6,7 +6,7 @@ class GroupsTablesDefinitions {
       await this.createTableGroups();
     } catch (error) {
       throw new Error(
-        `Error creating Groups tables: ${error instanceof Error ? error.message : String(error)}`,
+        `Falha na criação das tabelas de Groups: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
