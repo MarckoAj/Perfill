@@ -12,7 +12,7 @@ class TasksTablesDefinitions {
       await this.createTableAuvoQuestionnairesAnswers();
     } catch (error) {
       throw new Error(
-        `Error creating Tasks tables: ${error instanceof Error ? error.message : String(error)}`,
+        `Falha na criação das tabelas: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
@@ -204,9 +204,7 @@ class TasksTablesDefinitions {
       ON UPDATE NO ACTION
 )
 ENGINE = InnoDB;
-
 `;
-
     return executeQuery(sql);
   }
 }
