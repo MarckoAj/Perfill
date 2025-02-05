@@ -14,7 +14,7 @@ class QuestionnarieSeeders {
     INSERT INTO auvo_questionnaires (questionnaireId,\`description\`)
     SELECT questionnaireId,\`description\`
     FROM (
-    SELECT 0 AS questionnaireId,"Selecione um questionario" AS \`description\`
+    SELECT 0 AS questionnaireId,"SELECT" AS \`description\`
     )AS temp
 WHERE NOT EXISTS (
     SELECT 1 FROM auvo_questionnaires WHERE auvo_questionnaires.questionnaireId = temp.questionnaireId

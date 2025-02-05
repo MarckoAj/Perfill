@@ -13,14 +13,14 @@ class SegmentSeeders {
     const sql = `
     INSERT INTO auvo_segments (segmentId, description)
    SELECT *
-   FROM (SELECT 0 AS segmentId, "Nao Atribuido" AS description )
+   FROM (SELECT 0 AS segmentId, "NOT_ASSIGNED" AS description )
     AS  TEMP
    WHERE NOT EXISTS (
        SELECT segmentId FROM auvo_segments WHERE segmentId = 0
    )
    UNION ALL
    SELECT *
-   FROM (SELECT 22923 AS segmentId, "Selecione" AS description) AS TEMP
+   FROM (SELECT 22923 AS segmentId, "SELECT" AS description) AS TEMP
    WHERE NOT EXISTS (
        SELECT segmentId FROM auvo_segments WHERE segmentId = 22923
    );

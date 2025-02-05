@@ -3,7 +3,7 @@ dotenv.config({ path: 'test.env' });
 
 import definitionDb from '../../infrastructure/database/definitionDb.ts';
 import executeQuery from '../../infrastructure/database/queries.ts';
-import { pool } from '../../infrastructure/database/conection.ts';
+import { pool } from '../../infrastructure/database/connection.ts';
 import { RowDataPacket } from 'mysql2/promise';
 import { clearDbTables } from '../../utils/testsDbfunctions.ts';
 import auvoGroupsTables from '../../infrastructure/database/tables/auvoGroupsTables.ts';

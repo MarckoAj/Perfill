@@ -16,11 +16,11 @@ class TaskSeeders {
     INSERT INTO auvo_task_priorities (taskPriorityId,priorityDescription)
     SELECT taskPriorityId,priorityDescription
     FROM (
-    SELECT 1 AS taskPriorityId,"Low" AS priorityDescription
+    SELECT 1 AS taskPriorityId,"LOW" AS priorityDescription
     UNION ALL
-    SELECT 2 AS taskPriorityId,"Mediuim" AS priorityDescription
+    SELECT 2 AS taskPriorityId,"MEDIUM" AS priorityDescription
     UNION ALL
-    SELECT 3 AS taskPriorityId,"High" AS priorityDescription
+    SELECT 3 AS taskPriorityId,"HIGH" AS priorityDescription
     )AS temp
     WHERE NOT EXISTS (
     SELECT 1 FROM auvo_task_priorities WHERE auvo_task_priorities.taskPriorityId = temp.taskPriorityId
@@ -32,9 +32,9 @@ class TaskSeeders {
   async seedDataTaskTypes(): Promise<QueryResult> {
     const sql = `
     INSERT INTO auvo_task_types (taskTypeId,userCreatorId,standardQuestionnaireId,description,creationDate,standardTime,toleranceTime,active)
-    SELECT taskTypeId,userCreatorId,standardQuestionnaireId,\`description\`,creationDate,standardTime,toleranceTime,active
+    SELECT taskTypeId,userCreatorId,standardQuestionnaireId,\`description\`,creationDate, standardTime,toleranceTime,active
     FROM (
-    SELECT 0 AS taskTypeId,0 AS userCreatorId,0 AS standardQuestionnaireId,"Tarefa sem tipo" AS \`description\` , now() AS creationDate, 0 AS standardTime, 0 AS toleranceTime, 1 AS active
+    SELECT 0 AS taskTypeId,0 AS userCreatorId,0 AS standardQuestionnaireId,"SELECT" AS \`description\` ,NULL AS creationDate,  0 AS standardTime, 0 AS toleranceTime, 1 AS active
     )AS temp
     WHERE NOT EXISTS (
     SELECT 1 FROM auvo_task_types WHERE auvo_task_types.taskTypeId = temp.taskTypeId
