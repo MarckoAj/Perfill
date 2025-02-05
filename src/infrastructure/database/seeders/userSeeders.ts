@@ -36,7 +36,7 @@ WHERE NOT EXISTS (
     INSERT INTO auvo_users (userId,\`name\`,fk_userType,\`registrationDate\`,\`active\`)
  SELECT temp.userId, temp.\`name\`, temp.fk_userType, temp.registrationDate, temp.active
  FROM(
-      SELECT 0 AS userId, "NÃO ATRIBUIDO" AS \`name\`, 1 AS fk_userType, NOW() AS registrationDate, 1 AS active
+      SELECT 0 AS userId, "NÃO ATRIBUIDO" AS \`name\`, 1 AS fk_userType, NULL AS registrationDate, 1 AS active
    ) AS temp
    WHERE NOT EXISTS (
     SELECT 1 FROM auvo_users WHERE auvo_users.userId = temp.userId

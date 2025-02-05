@@ -11,6 +11,10 @@ const sqlColumnCheck = (tableName: string, schemaName: string): string => {
   return `SELECT COLUMN_NAME FROM information_schema.columns WHERE TABLE_NAME = '${tableName}' AND TABLE_SCHEMA = '${schemaName}'`;
 };
 
+const sqlDataCheck = (tableName: string, schemaName: string): string => {
+  return `SELECT * FROM ${schemaName}.${tableName}`;
+};
+
 const clearDbTables = async (databaseName: string) => {
   try {
     await executeQuery('SET FOREIGN_KEY_CHECKS = 0;');
@@ -36,4 +40,4 @@ const clearDbTables = async (databaseName: string) => {
   }
 };
 
-export { isRowDataPacketArray, sqlTableCheck, sqlColumnCheck, clearDbTables };
+export { isRowDataPacketArray, sqlTableCheck, sqlColumnCheck, clearDbTables, sqlDataCheck };
