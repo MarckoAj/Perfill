@@ -31,15 +31,15 @@ import {
     }
   });
 
-  describe('Verifica criação da tabela auvo_customers', () => {
-    it(`Deve verificar se a tabela "auvo_customers" existe no banco de dados`, async () => {
+  describe('Verifica a criação da tabela auvo_customers', () => {
+    it('Deve verificar se a tabela "auvo_customers" existe no banco de dados', async () => {
       const sql = sqlTableCheck('auvo_customers', process.env.DBNAME as string);
       const result = (await executeQuery(sql)) as RowDataPacket[];
       expect(isRowDataPacketArray(result)).toBeTruthy();
       expect(result.length).toBe(1);
     });
 
-    it(`Deve verificar se a tabela "auvo_customers" tem todas as colunas definidas`, async () => {
+    it('Deve verificar se a tabela "auvo_customers" possui todas as colunas definidas', async () => {
       const columnsList = [
         'customerId',
         'fk_segmentId',
@@ -65,8 +65,8 @@ import {
     });
   });
 
-  describe('Teste de erro na criação da tabela Customers', () => {
-    it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
+  describe('Teste de erro na criação da tabela auvo_customers', () => {
+    it('Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente', async () => {
       process.env.DBNAME = 'bancoInexistente';
 
       try {

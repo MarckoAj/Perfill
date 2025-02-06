@@ -31,15 +31,15 @@ import {
     }
   });
 
-  describe('Verifica criação da tabela auvo_segments', () => {
-    it(`Deve verificar se a tabela "auvo_segments" existe no banco de dados`, async () => {
+  describe('Verifica a criação da tabela auvo_segments', () => {
+    it('Deve verificar se a tabela "auvo_segments" existe no banco de dados', async () => {
       const sql = sqlTableCheck('auvo_segments', process.env.DBNAME as string);
       const result = (await executeQuery(sql)) as RowDataPacket[];
       expect(isRowDataPacketArray(result)).toBeTruthy();
       expect(result.length).toBe(1);
     });
 
-    it(`Deve verificar se a tabela "auvo_segments" tem todas as colunas definidas`, async () => {
+    it('Deve verificar se a tabela "auvo_segments" possui todas as colunas definidas', async () => {
       const columnsList = ['segmentId', 'description', 'registrationDate'];
       const result = (await executeQuery(
         sqlColumnCheck('auvo_segments', process.env.DBNAME as string),
@@ -49,8 +49,8 @@ import {
     });
   });
 
-  describe('Teste de erro na criação da tabela Segments', () => {
-    it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
+  describe('Teste de erro na criação da tabela auvo_segments', () => {
+    it('Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente', async () => {
       process.env.DBNAME = 'bancoInexistente';
 
       try {
@@ -58,7 +58,7 @@ import {
       } catch (error) {
         expect(error instanceof Error).toBeTruthy();
         if (error instanceof Error) {
-          expect(error.message).toContain('Falha na criação das tabelas de segments');
+          expect(error.message).toContain('Falha na criação das tabelas de auvo_segments');
         }
       }
     });

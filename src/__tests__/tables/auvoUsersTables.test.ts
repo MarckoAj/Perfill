@@ -57,7 +57,7 @@ import {
       expect(result.length).toBe(1);
     });
 
-    it(`Deve verificar se a tabela "auvo_users" tem as colunas definidas"`, async () => {
+    it(`Deve verificar se a tabela "auvo_users" possui todas as colunas definidas"`, async () => {
       const columnsList = [
         'userId',
         'fk_userType',
@@ -88,7 +88,7 @@ import {
       } catch (error) {
         expect(error instanceof Error).toBeTruthy();
         if (error instanceof Error) {
-          expect(error.message).toContain('Falha na criação das tabelas de usuários');
+          expect(error.message).toContain('Falha na criação das tabelas de Usuários');
         }
       }
     });

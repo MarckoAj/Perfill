@@ -2,7 +2,7 @@ import auvoUsersTables from './tables/auvoUsersTables.ts';
 import auvoSegmentsTables from './tables/auvoSegmentsTables.ts';
 import auvoGroupsTables from './tables/auvoGroupsTables.ts';
 import auvoCustomersTables from './tables/auvoCustomersTables.ts';
-import auvoQuestionnariesTables from './tables/auvoQuestionnariesTables.ts';
+import auvoQuestionnariesTables from './tables/auvoQuestionnairesTables.ts';
 import auvoTasksTables from './tables/auvoTasksTables.ts';
 
 import userSeeders from './seeders/userSeeders.ts';
