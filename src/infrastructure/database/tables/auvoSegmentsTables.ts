@@ -1,4 +1,4 @@
-import executeQuery, { QueryResult } from '../queries.js';
+import executeQuery, { QueryResult } from '../queries.ts';
 
 class SegmentsTablesDefinitions {
   async createAllTables(): Promise<void> {
@@ -6,7 +6,7 @@ class SegmentsTablesDefinitions {
       await this.createTableSegments();
     } catch (error) {
       throw new Error(
-        `Error creating Segments tables: ${error instanceof Error ? error.message : String(error)}`,
+        `Falha na criação das tabelas de segments: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }

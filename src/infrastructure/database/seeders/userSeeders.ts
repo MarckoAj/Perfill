@@ -1,4 +1,4 @@
-import executeQuery, { QueryResult } from '../queries.js';
+import executeQuery, { QueryResult } from '../queries.ts';
 
 class UserSeeders {
   async addAllSeeders(): Promise<void> {
@@ -15,11 +15,11 @@ class UserSeeders {
     INSERT INTO auvo_user_types (userTypeId, description)
 SELECT temp.userTypeId, temp.description
 FROM (
-    SELECT 3 AS userTypeId, 'Admin' AS description
+    SELECT 3 AS userTypeId, 'ADMIN' AS description
     UNION ALL
-    SELECT 4 AS userTypeId, 'Main_Admin' AS description
+    SELECT 4 AS userTypeId, 'MAIN_ADMIN' AS description
     UNION ALL
-    SELECT 1 AS userTypeId, 'User' AS description
+    SELECT 1 AS userTypeId, 'USER' AS description
 ) AS temp
 WHERE NOT EXISTS (
     SELECT 1
@@ -36,7 +36,7 @@ WHERE NOT EXISTS (
     INSERT INTO auvo_users (userId,\`name\`,fk_userType,\`registrationDate\`,\`active\`)
  SELECT temp.userId, temp.\`name\`, temp.fk_userType, temp.registrationDate, temp.active
  FROM(
-      SELECT 0 AS userId, "NÃO ATRIBUIDO" AS \`name\`, 1 AS fk_userType, NOW() AS registrationDate, 1 AS active
+      SELECT 0 AS userId, "NOT_ASSIGNED" AS \`name\`, 1 AS fk_userType, NULL AS registrationDate, 1 AS active
    ) AS temp
    WHERE NOT EXISTS (
     SELECT 1 FROM auvo_users WHERE auvo_users.userId = temp.userId

@@ -1,4 +1,4 @@
-import executeQuery, { QueryResult } from '../queries.js';
+import executeQuery, { QueryResult } from '../queries.ts';
 
 class CustomersTablesDefinitions {
   async createAllTables(): Promise<void> {
@@ -6,7 +6,7 @@ class CustomersTablesDefinitions {
       await this.createTableCustomers();
     } catch (error) {
       throw new Error(
-        `Error creating Customers tables: ${error instanceof Error ? error.message : String(error)}`,
+        `Falha na criação das tabelas de Customers: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
@@ -30,7 +30,7 @@ class CustomersTablesDefinitions {
         \`dateLastUpdate\` DATETIME NULL,
         \`creationDate\` DATETIME NULL,
         PRIMARY KEY (\`customerId\`),
-        CONSTRAINT \`fk_customers_segments1\`
+        CONSTRAINT \`fk_customers_segments2\`
           FOREIGN KEY (\`fk_segmentId\`)
           REFERENCES \`auvo_segments\` (\`segmentId\`)
           ON DELETE NO ACTION

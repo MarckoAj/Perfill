@@ -2,11 +2,11 @@ import dotenv from 'dotenv';
 dotenv.config({ path: 'test.env' });
 
 import definitionDb from '../../infrastructure/database/definitionDb.ts';
-import { pool } from '../../infrastructure/database/connection.ts';
 import executeQuery from '../../infrastructure/database/queries.ts';
+import { pool } from '../../infrastructure/database/connection.ts';
 import { RowDataPacket } from 'mysql2/promise';
 import { clearDbTables } from '../../utils/testsDbfunctions.ts';
-import auvoUsersTables from '../../infrastructure/database/tables/auvoUsersTables.ts';
+import auvoQuestionnairesTables from '../../infrastructure/database/tables/auvoQuestionnairesTables.ts';
 
 import {
   sqlTableCheck,
@@ -31,64 +31,60 @@ import {
     }
   });
 
-  describe('Verifica criação da tabela auvo_user_types', () => {
-    it(`Deve verificar se a tabela "auvo_user_types" existe no banco de dados`, async () => {
-      const sql = sqlTableCheck('auvo_user_types', process.env.DBNAME as string);
+  describe('Verifica a criação da tabela auvo_questionnaires', () => {
+    it('Deve verificar se a tabela "auvo_questionnaires" existe no banco de dados', async () => {
+      const sql = sqlTableCheck('auvo_questionnaires', process.env.DBNAME as string);
       const result = (await executeQuery(sql)) as RowDataPacket[];
       expect(isRowDataPacketArray(result)).toBeTruthy();
       expect(result.length).toBe(1);
     });
 
-    it(`Deve verificar se a tabela "auvo_user_types" tem todas as colunas definidas`, async () => {
-      const columnsList = ['userTypeId', 'description'];
+    it('Deve verificar se a tabela "auvo_questionnaires" possui todas as colunas definidas', async () => {
+      const columnsList = ['questionnaireId', 'description', 'header', 'footer', 'creationDate'];
       const result = (await executeQuery(
-        sqlColumnCheck('auvo_user_types', process.env.DBNAME as string),
+        sqlColumnCheck('auvo_questionnaires', process.env.DBNAME as string),
       )) as RowDataPacket[];
       const columnNames = result.map((item) => item.COLUMN_NAME);
       expect(columnNames).toEqual(columnsList.sort());
     });
   });
 
-  describe('Verifica criação de tabelas auvo_users', () => {
-    it(`Deve verificar se a tabela "auvo_users" existe no banco de dados`, async () => {
-      const sql = sqlTableCheck('auvo_users', process.env.DBNAME as string);
+  describe('Verifica a criação da tabela auvo_questionnaire_questions', () => {
+    it('Deve verificar se a tabela "auvo_questionnaire_questions" existe no banco de dados', async () => {
+      const sql = sqlTableCheck('auvo_questionnaire_questions', process.env.DBNAME as string);
       const result = (await executeQuery(sql)) as RowDataPacket[];
       expect(isRowDataPacketArray(result)).toBeTruthy();
       expect(result.length).toBe(1);
     });
 
-    it(`Deve verificar se a tabela "auvo_users" possui todas as colunas definidas"`, async () => {
+    it('Deve verificar se a tabela "auvo_questionnaire_questions" possui todas as colunas definidas', async () => {
       const columnsList = [
-        'userId',
-        'fk_userType',
-        'name',
-        'externalId',
-        'login',
-        'email',
-        'jobPosition',
-        'address',
-        'basePoint',
-        'registrationDate',
-        'active',
+        'questionId',
+        'questionnaireId',
+        'answerType',
+        'description',
+        'subtitle',
+        'requiredAnswer',
+        'creationDate',
       ];
       const result = (await executeQuery(
-        sqlColumnCheck('auvo_users', process.env.DBNAME as string),
+        sqlColumnCheck('auvo_questionnaire_questions', process.env.DBNAME as string),
       )) as RowDataPacket[];
       const columnNames = result.map((item) => item.COLUMN_NAME);
       expect(columnNames).toEqual(columnsList.sort());
     });
   });
 
-  describe('Teste de erro na criação das tabelas Usuarios', () => {
-    it(`Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente`, async () => {
+  describe('Teste de erro na criação da tabela auvo_questionnaires', () => {
+    it('Deve retornar um erro ao tentar criar tabelas em um banco de dados inexistente', async () => {
       process.env.DBNAME = 'bancoInexistente';
 
       try {
-        await auvoUsersTables.createAllTables();
+        await auvoQuestionnairesTables.createAllTables();
       } catch (error) {
         expect(error instanceof Error).toBeTruthy();
         if (error instanceof Error) {
-          expect(error.message).toContain('Falha na criação das tabelas de Usuários');
+          expect(error.message).toContain('Falha na criação das tabelas de Questionnaires');
         }
       }
     });
