@@ -13,6 +13,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/mysql": "^2.15.26",
+    "@types/node-fetch": "^2.6.12",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
     "@typescript-eslint/parser": "^7.16.0",
     "dotenv": "^16.4.5",
@@ -28,6 +29,7 @@
   "type": "module",
   "dependencies": {
     "mysql": "^2.18.1",
-    "mysql2": "^3.11.3"
+    "mysql2": "^3.11.3",
+    "node-fetch": "^2.7.0"
   }
 }
