@@ -1,8 +1,3 @@
-interface Tokens {
-  apiKey: string;
-  apiToken: string;
-}
-
 class Urls {
   auvoBaseUrl() {
     return `https://api.auvo.com.br/v2`;
@@ -16,13 +11,14 @@ class Urls {
     return `http://10.10.10.214/zabbix/api_jsonrpc.php`;
   }
 
-  loginAuvoURL(tokens: Tokens): string {
-    return `${this.auvoBaseUrl()}/login/?apiKey=${tokens.apiKey}&apiToken=${tokens.apiToken}`;
+  requestListAuvoURL(
+    endPoint: string,
+    paramFilter: string,
+    page: number = 1,
+    selectfields: string[] | string = '',
+  ) {
+    return `${this.auvoBaseUrl()}/${endPoint}/?paramFilter=${paramFilter}&page=${page}&pageSize=100&order=0&selectfields=${selectfields}`;
   }
-
-  // requestListAuvoURL(endPoint: string, paramFilter, page: number = 1, selectfields) {
-  //   return `${this.auvoBaseUrl()}/${endPoint}/?paramFilter=${paramFilter}&page=${page}&pageSize=100&order=0&selectfields=${selectfields}`;
-  // }
 
   // requestGlpiEndpointByStatus(status: number) {
   //   const searchEndpoint = `search/Ticket?criteria[0][field]=12&criteria[0][searchtype]=equals&criteria[0][value] = ${status}&range=0-1000`;
