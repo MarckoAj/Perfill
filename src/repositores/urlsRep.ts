@@ -13,11 +13,12 @@ class Urls {
 
   requestListAuvoURL(
     endPoint: string,
-    paramFilter: string,
+    paramFilter: object = {},
     page: number = 1,
     selectfields: string[] | string = '',
-  ) {
-    return `${this.auvoBaseUrl()}/${endPoint}/?paramFilter=${paramFilter}&page=${page}&pageSize=100&order=0&selectfields=${selectfields}`;
+  ): string {
+    const encodedParamFilter = encodeURIComponent(JSON.stringify(paramFilter));
+    return `${this.auvoBaseUrl()}/${endPoint}/?paramFilter=${encodedParamFilter}&page=${page}&pageSize=100&order=0&selectfields=${selectfields}`;
   }
 
   // requestGlpiEndpointByStatus(status: number) {

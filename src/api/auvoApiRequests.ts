@@ -21,7 +21,7 @@ interface AuvoResponse {
   result: {
     entityList: [];
     pagedSearchReturnData: { order: number; pageSize: number; page: number; totalItems: number };
-    links: [];
+    links: [{ href: string; rel: string; method: string }];
   };
 }
 
@@ -34,6 +34,16 @@ class AuvoService {
   constructor() {
     this.API_KEY = process.env.AUVO_APIKEY;
     this.API_TOKEN = process.env.AUVO_APITOKEN;
+  }
+
+  private isAuthenticated(): boolean {
+    return !!this.bearerToken && customDate.isValidTokenTime(this.tokenExpirationDate);
+  }
+
+  private hasNextPage(data: AuvoResponse): boolean {
+    const { result } = data;
+    const links = result?.links || [];
+    return links.some((element) => element.rel === 'nextPage');
   }
 
   async request<T>(
@@ -60,13 +70,9 @@ class AuvoService {
     return response.ok ? (response.json() as Promise<T>) : null;
   }
 
-  private isAuthenticated(): boolean {
-    return !!this.bearerToken && customDate.isValidTokenTime(this.tokenExpirationDate);
-  }
-
   async requestAccessToken(): Promise<string | null> {
     if (!this.API_KEY || !this.API_TOKEN) {
-      throw new Error('API_KEY ou API_TOKEN não está definido');
+      throw new Error('API_KEY ou API_TOKEN não está definida');
     }
 
     const tokensAuvo: Tokens = {
@@ -109,48 +115,54 @@ class AuvoService {
 
   async requestList(
     endPoint: string,
-    params?: URLSearchParams,
+    params?: object,
     page?: number,
     selectfields?: string[] | string,
-  ):Promise<AuvoResponse|[]> {
+  ): Promise<AuvoResponse | null> {
     try {
       const header = await this.auvoHeaderAuthorization();
-      const param = new URLSearchParams(params).toString();
-      const url = urlsRep.requestListAuvoURL(endPoint, param, page, selectfields);
-      const data = this.request(url, 'GET', header)  as AuvoResponse;
- if(data){
-return data
- }else{
-return []
- }
+      const url = urlsRep.requestListAuvoURL(endPoint, params, page, selectfields);
+      const data = await this.request<AuvoResponse>(url, 'GET', header);
+      return data ?? null;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return null;
     }
   }
 
   async requestListComplete(
     endPoint: string,
-    params?: URLSearchParams,
+    params?: object,
     selectfields?: string[] | string,
-  ) {
+  ): Promise<object[]> {
     const completeList = [];
     let page = 1;
     let hasLinks = false;
 
     do {
-      const data = await this.requestList(endPoint, params, page, selectfields):<AuvoResponse>;
-      if (data.result) {
+      const data = await this.requestList(endPoint, params, page, selectfields);
+
+      if (data && data.result) {
         completeList.push(data.result.entityList || data.result);
       }
+
       page++;
-      hasLinks = this.hasNextPage(data);
+      hasLinks = data ? this.hasNextPage(data) : false;
     } while (hasLinks);
-    return completeList;
+
+    return completeList.length ? completeList : completeList.flat();
+  }
+
+  async requestTaskList(
+    interval: string = 'dia',
+    params?: object,
+    selectfields?: string[] | string,
+  ) {
+    const dateParams = customDate.getDate(interval);
+    const paramenters = { ...dateParams, ...params };
+    const data = await this.requestListComplete('tasks', paramenters, selectfields);
+    return data;
   }
 }
 
 export default AuvoService;
-
-// Teste
-const test = new AuvoService();
-console.log(await test.requestAuvoList('users'));
