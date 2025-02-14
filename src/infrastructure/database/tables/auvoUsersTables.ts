@@ -39,7 +39,6 @@ class UsersTablesDefinitions {
         \`email\` VARCHAR(100) NULL DEFAULT NULL,
         \`jobPosition\` VARCHAR(100) NULL DEFAULT NULL,
         \`address\` VARCHAR(255) NULL DEFAULT NULL,
-        \`basePoint\` POINT NULL DEFAULT NULL,
         \`registrationDate\` DATETIME NULL,
         \`active\` tinyint,
         PRIMARY KEY (\`userId\`),

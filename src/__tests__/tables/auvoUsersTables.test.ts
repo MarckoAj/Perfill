@@ -67,7 +67,6 @@ import {
         'email',
         'jobPosition',
         'address',
-        'basePoint',
         'registrationDate',
         'active',
       ];

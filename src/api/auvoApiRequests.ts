@@ -150,12 +150,12 @@ class AuvoService {
       hasLinks = data ? this.hasNextPage(data) : false;
     } while (hasLinks);
 
-    return completeList.length ? completeList : completeList.flat();
+    return completeList.length ? completeList.flat() : completeList;
   }
 
   async requestTaskList(
     interval: string = 'dia',
-    params?: object,
+    params: object = {},
     selectfields?: string[] | string,
   ) {
     const dateParams = customDate.getDate(interval);
@@ -165,4 +165,4 @@ class AuvoService {
   }
 }
 
-export default AuvoService;
+export default new AuvoService();
