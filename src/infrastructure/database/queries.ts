@@ -3,7 +3,10 @@ import { getPool } from './connection.ts';
 
 export type QueryResult = ResultSetHeader | RowDataPacket[];
 
-const executeQuery = async (query: string, parametros: string[] = []): Promise<QueryResult> => {
+const executeQuery = async (
+  query: string,
+  parametros: string | number | (string | number)[] = [],
+): Promise<QueryResult> => {
   let connection: PoolConnection | null = null;
 
   try {

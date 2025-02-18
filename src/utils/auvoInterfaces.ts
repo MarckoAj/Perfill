@@ -21,7 +21,7 @@ export interface EmployeeNotification {
 }
 
 export interface ClientNotification {
-  adressChange: number;
+  addressChange: number;
 }
 
 export interface TaskNotification {
@@ -43,7 +43,7 @@ export interface User {
   email: string;
   culture: string;
   jobPosition: string;
-  userType: UserType | number;
+  userType: UserType | { userTypeId: number } | number;
   address: string;
   latitude: number;
   longitude: number;
