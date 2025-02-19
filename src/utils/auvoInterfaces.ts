@@ -82,3 +82,12 @@ export interface UserRefactored {
   registrationDate?: string;
   active: boolean;
 }
+
+export interface Group {
+  id: number;
+  description: string;
+}
+
+export interface CustomerGroup extends Omit<Group, 'id'> {
+  groupId: number;
+}
