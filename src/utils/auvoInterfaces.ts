@@ -43,7 +43,7 @@ export interface User {
   email: string;
   culture: string;
   jobPosition: string;
-  userType: UserType | { userTypeId: number } | number;
+  userType: UserType;
   address: string;
   latitude: number;
   longitude: number;
@@ -90,4 +90,14 @@ export interface Group {
 
 export interface CustomerGroup extends Omit<Group, 'id'> {
   groupId: number;
+}
+
+export interface Segment {
+  id: number;
+  description: string;
+  registrationDate: string;
+}
+
+export interface CustomerSegment extends Omit<Segment, 'id'> {
+  segmentId: number;
 }
