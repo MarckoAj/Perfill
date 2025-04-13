@@ -1,0 +1,13 @@
+{
+  "code-runner.executorMap": {
+    "typescript": "npx tsx", // Para arquivos TypeScript normais
+    "typescript-test": "npx jest" // Para arquivos de teste
+  },
+  "code-runner.executorMapByFileExtension": {
+    ".test.ts": "npx jest" // Executa Jest para arquivos com extensão .test.ts
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "code-runner.runInTerminal": true, // Roda no terminal integrado para saída interativa
+  "code-runner.saveFileBeforeRun": true // Salva o arquivo antes de executar
+}
