@@ -18,7 +18,6 @@ const executeQuery = async (query: string, parametros: any = []): Promise<QueryR
 
     return resultados;
   } catch (error) {
-    console.log(query);
     if (connection) {
       await connection.rollback();
     }

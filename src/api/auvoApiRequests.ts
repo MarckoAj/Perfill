@@ -90,6 +90,7 @@ class AuvoService {
         },
         tokensAuvo,
       );
+      console.log(data);
       this.bearerToken = data?.result.accessToken ?? null;
       this.tokenExpirationDate = data?.result.expiration ?? null;
     } catch (error) {
@@ -166,3 +167,6 @@ class AuvoService {
 }
 
 export default new AuvoService();
+const teste = new AuvoService();
+const auto = await teste.requestAccessToken();
+console.log(auto);

@@ -1,28 +1,29 @@
 import { UserRefactored } from '../utils/auvoInterfaces.ts';
-
 import BaseRepository from './baseRep.ts';
 
 class UserRepository extends BaseRepository<UserRefactored> {
-  protected tableName = 'auvo_users';
-
-  protected get primaryKey(): keyof UserRefactored {
-    return 'userId';
-  }
-
-  protected get columns(): (keyof UserRefactored)[] {
-    return [
-      'userId',
-      'active',
-      'externalId',
-      'name',
-      'login',
-      'email',
-      'jobPosition',
-      'fk_userType',
-      'address',
-      'registrationDate',
-    ];
+  constructor() {
+    super({
+      tableName: 'auvo_users',
+      primaryKey: 'userId',
+      columns: [
+        'userId',
+        'active',
+        'externalId',
+        'name',
+        'login',
+        'email',
+        'jobPosition',
+        'fk_userType',
+        'address',
+        'registrationDate',
+      ],
+    });
   }
 }
+
+const teste = new UserRepository();
+const data = await teste.selectById(1);
+console.log(data);
 
 export default new UserRepository();

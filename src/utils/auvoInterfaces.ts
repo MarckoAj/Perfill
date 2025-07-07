@@ -21,7 +21,7 @@ export interface EmployeeNotification {
 }
 
 export interface ClientNotification {
-  addressChange: number;
+  adressChange: number;
 }
 
 export interface TaskNotification {

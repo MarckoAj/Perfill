@@ -2,22 +2,29 @@ import executeQuery from '../infrastructure/database/queries.ts';
 import { QueryResult } from '../infrastructure/database/queries.ts';
 import { RowDataPacket } from 'mysql2';
 
-abstract class BaseRepository<T> {
-  protected abstract tableName: string;
-  protected abstract get primaryKey(): keyof T;
-  protected abstract get columns(): (keyof T)[];
+class BaseRepository<T> {
+  protected readonly tableName: string;
+  protected readonly primaryKey: keyof T;
+  protected readonly columns: (keyof T)[];
 
-  showtableName() {
+  showValues() {
     console.log(this.tableName);
+    console.log(this.primaryKey);
+    console.log(this.columns);
+  }
+
+  constructor(repositoryInfo: { tableName: string; primaryKey: keyof T; columns: (keyof T)[] }) {
+    this.tableName = repositoryInfo.tableName;
+    this.primaryKey = repositoryInfo.primaryKey;
+    this.columns = repositoryInfo.columns;
   }
 
   async selectById(id: number): Promise<T | null> {
-    this.showtableName();
     const result = (await executeQuery(
       `SELECT * FROM ${this.tableName} WHERE ${String(this.primaryKey)} = ?`,
       [id],
     )) as RowDataPacket[];
-
+    console.log(result);
     return result.length ? (result[0] as T) : null;
   }
 

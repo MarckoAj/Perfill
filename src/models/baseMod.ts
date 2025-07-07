@@ -1,15 +1,19 @@
 import { QueryResult } from '../infrastructure/database/queries.ts';
 
-abstract class BaseModel<T extends object, U> {
+abstract class BaseModel<U, T extends object> {
   protected abstract repository: {
-    selectById: (id: number) => Promise<U | null>;
-    update: (data: U) => Promise<QueryResult | null>;
-    insert: (data: U) => Promise<QueryResult | null>;
+    selectById: (id: number) => Promise<T | null>;
+    update: (data: T) => Promise<QueryResult | null>;
+    insert: (data: T) => Promise<QueryResult | null>;
   };
 
-  protected abstract mapToDatabaseFormat(entity: T): U;
+  protected abstract mapToDatabaseFormat(entity: U): T;
 
-  constructor(protected mainKey: keyof T) {}
+  protected abstract mainKey: keyof T;
+
+  showMainKey() {
+    console.log(this.mainKey);
+  }
 
   protected getId(entity: T): number {
     const value = entity[this.mainKey];
@@ -19,9 +23,9 @@ abstract class BaseModel<T extends object, U> {
     return value;
   }
 
-  async synchronize(entity: T): Promise<QueryResult | null> {
+  async synchronize(entity: U): Promise<QueryResult | null> {
     const refactoredEntity = this.mapToDatabaseFormat(entity);
-    const id = this.getId(entity);
+    const id = this.getId(refactoredEntity);
     try {
       const entityInDatabase = await this.repository.selectById(id);
       return entityInDatabase
@@ -35,7 +39,7 @@ abstract class BaseModel<T extends object, U> {
     }
   }
 
-  async addList(list: T[]): Promise<(QueryResult | null)[]> {
+  async addList(list: U[]): Promise<(QueryResult | null)[]> {
     return Promise.all(list.map((entity) => this.synchronize(entity))).catch((error) => {
       console.error(
         `Erro ao adicionar lista de entidades: ${error instanceof Error ? error.message : error}`,

@@ -8,7 +8,7 @@ const getPool = (): Pool => {
     const DBPORT: number = +(process.env.DBPORT || 3306);
     const DBUSER: string = process.env.DBUSER || 'root';
     const DBPASS: string = process.env.DBPASS || 'Perfill0102@';
-    const DBNAME: string = process.env.DBNAME || 'perfillDb';
+    const DBNAME: string = process.env.DBNAME || 'perfilldb';
 
     const localConfig: PoolOptions = {
       connectionLimit: 50,
