@@ -3,18 +3,15 @@ import groupRep from '../repositores/groupRep.ts';
 import BaseModel from './baseMod.ts';
 
 class GroupsModel extends BaseModel<Group, CustomerGroup> {
-  protected repository = {
-    selectById: groupRep.selectById,
-    update: groupRep.updateEntity,
-    insert: groupRep.insertEntity,
-  };
+  protected repository = groupRep;
 
-  constructor() {
-    super('id');
-  }
+  protected mainKey: keyof CustomerGroup = 'groupId';
 
   protected mapToDatabaseFormat(group: Group): CustomerGroup {
-    return { groupId: group.id, description: group.description };
+    return {
+      groupId: group.id,
+      description: group.description,
+    };
   }
 }
 

@@ -2,30 +2,23 @@ import executeQuery from '../infrastructure/database/queries.ts';
 import { QueryResult } from '../infrastructure/database/queries.ts';
 import { RowDataPacket } from 'mysql2';
 
-class BaseRepository<T> {
-  protected readonly tableName: string;
-  protected readonly primaryKey: keyof T;
-  protected readonly columns: (keyof T)[];
+abstract class BaseRepository<T> {
+  protected abstract get tableName(): string;
+  protected abstract get primaryKey(): keyof T;
+  protected abstract get columns(): (keyof T)[];
 
-  showValues() {
-    console.log(this.tableName);
-    console.log(this.primaryKey);
-    console.log(this.columns);
-  }
+  async selectById(id: number, fields?: (keyof T)[]): Promise<T | null> {
+    const selectedFields = fields?.length ? fields.map((f) => `\`${String(f)}\``).join(', ') : '*';
 
-  constructor(repositoryInfo: { tableName: string; primaryKey: keyof T; columns: (keyof T)[] }) {
-    this.tableName = repositoryInfo.tableName;
-    this.primaryKey = repositoryInfo.primaryKey;
-    this.columns = repositoryInfo.columns;
-  }
+    const sql = `SELECT ${selectedFields} FROM ${this.tableName} WHERE \`${String(this.primaryKey)}\` = ?`;
 
-  async selectById(id: number): Promise<T | null> {
-    const result = (await executeQuery(
-      `SELECT * FROM ${this.tableName} WHERE ${String(this.primaryKey)} = ?`,
-      [id],
-    )) as RowDataPacket[];
-    console.log(result);
+    const result = (await executeQuery(sql, [id])) as RowDataPacket[];
+
     return result.length ? (result[0] as T) : null;
+  }
+
+  getAllowedsFields(): (keyof T)[] {
+    return this.columns;
   }
 
   async insertEntity(entity: T): Promise<QueryResult | null> {

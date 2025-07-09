@@ -1,13 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config({ path: 'test.env' });
 
-import definitionDb from '../../infrastructure/database/definitionDb.ts';
-import { pool } from '../../infrastructure/database/connection.ts';
-import executeQuery from '../../infrastructure/database/queries.ts';
+import definitionDb from '../../../../infrastructure/database/definitionDb.ts';
+import { pool } from '../../../../infrastructure/database/connection.ts';
+import executeQuery from '../../../../infrastructure/database/queries.ts';
 import { RowDataPacket } from 'mysql2/promise';
-import { clearDbTables } from '../../utils/testsDbfunctions.ts';
+import { clearDbTables } from '../../../../utils/testsDbfunctions.ts';
 
-import { sqlDataCheck, isRowDataPacketArray } from '../../utils/testsDbfunctions.ts';
+import { sqlDataCheck, isRowDataPacketArray } from '../../../../utils/testsDbfunctions.ts';
 
 (async () => {
   let originalDBName: string | undefined;

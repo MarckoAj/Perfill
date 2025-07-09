@@ -1,8 +1,11 @@
 import BaseRepository from './baseRep.ts';
 import { CustomerGroup } from '../utils/auvoInterfaces.ts';
+import { bindPublicMethods } from '../utils/bindMethods.ts';
 
-class groupsRepository extends BaseRepository<CustomerGroup> {
-  protected tableName = 'auvo_segments';
+class GroupsRepository extends BaseRepository<CustomerGroup> {
+  protected get tableName(): string {
+    return 'auvo_groups';
+  }
 
   protected get primaryKey(): keyof CustomerGroup {
     return 'groupId';
@@ -11,6 +14,9 @@ class groupsRepository extends BaseRepository<CustomerGroup> {
   protected get columns(): (keyof CustomerGroup)[] {
     return ['groupId', 'description'];
   }
+  super() {
+    bindPublicMethods(this);
+  }
 }
 
-export default new groupsRepository();
+export default new GroupsRepository();

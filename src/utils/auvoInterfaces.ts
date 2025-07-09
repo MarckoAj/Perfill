@@ -1,6 +1,6 @@
 export interface UserType {
   userTypeId: number;
-  description: string;
+  description?: string;
 }
 
 export interface BasePoint {

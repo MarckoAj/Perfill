@@ -1,18 +1,18 @@
 import dotenv from 'dotenv';
 dotenv.config({ path: 'test.env' });
 
-import definitionDb from '../../infrastructure/database/definitionDb.ts';
-import executeQuery from '../../infrastructure/database/queries.ts';
-import { pool } from '../../infrastructure/database/connection.ts';
+import definitionDb from '../../../../infrastructure/database/definitionDb.ts';
+import executeQuery from '../../../../infrastructure/database/queries.ts';
+import { pool } from '../../../../infrastructure/database/connection.ts';
 import { RowDataPacket } from 'mysql2/promise';
-import { clearDbTables } from '../../utils/testsDbfunctions.ts';
-import auvoCustomersTables from '../../infrastructure/database/tables/auvoCustomersTables.ts';
+import { clearDbTables } from '../../../../utils/testsDbfunctions.ts';
+import auvoCustomersTables from '../../../../infrastructure/database/tables/auvoCustomersTables.ts';
 
 import {
   sqlTableCheck,
   sqlColumnCheck,
   isRowDataPacketArray,
-} from '../../utils/testsDbfunctions.ts';
+} from '../../../../utils/testsDbfunctions.ts';
 
 (async () => {
   let originalDBName: string | undefined;

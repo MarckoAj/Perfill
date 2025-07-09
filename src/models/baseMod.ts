@@ -1,19 +1,10 @@
 import { QueryResult } from '../infrastructure/database/queries.ts';
+import BaseRepository from '../repositores/baseRep.ts';
 
 abstract class BaseModel<U, T extends object> {
-  protected abstract repository: {
-    selectById: (id: number) => Promise<T | null>;
-    update: (data: T) => Promise<QueryResult | null>;
-    insert: (data: T) => Promise<QueryResult | null>;
-  };
-
+  protected abstract repository: BaseRepository<T>;
   protected abstract mapToDatabaseFormat(entity: U): T;
-
   protected abstract mainKey: keyof T;
-
-  showMainKey() {
-    console.log(this.mainKey);
-  }
 
   protected getId(entity: T): number {
     const value = entity[this.mainKey];
@@ -23,14 +14,21 @@ abstract class BaseModel<U, T extends object> {
     return value;
   }
 
+  async selectById(id: number, fields?: (keyof T)[]): Promise<unknown> {
+    const alowedFields = this.repository.getAllowedsFields();
+    const fieldList = fields?.length ? fields.filter((k) => alowedFields.includes(k)) : [];
+    const entity = await this.repository.selectById(id, fieldList);
+    return entity;
+  }
+
   async synchronize(entity: U): Promise<QueryResult | null> {
     const refactoredEntity = this.mapToDatabaseFormat(entity);
     const id = this.getId(refactoredEntity);
     try {
       const entityInDatabase = await this.repository.selectById(id);
       return entityInDatabase
-        ? this.repository.update(refactoredEntity)
-        : this.repository.insert(refactoredEntity);
+        ? this.repository.updateEntity(refactoredEntity)
+        : this.repository.insertEntity(refactoredEntity);
     } catch (error) {
       console.error(
         `Erro ao sincronizar entidade: ${error instanceof Error ? error.message : error}`,

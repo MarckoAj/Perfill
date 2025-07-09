@@ -1,9 +1,22 @@
-import { RowDataPacket } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import executeQuery from '../infrastructure/database/queries.ts';
 
 const isRowDataPacketArray = (result: unknown): result is RowDataPacket[] => {
   return Array.isArray(result) && result.every((item) => typeof item === 'object' && item !== null);
 };
+
+export const isResultSetHeader = (result: unknown): result is ResultSetHeader => {
+  if (typeof result !== 'object' || result === null) return false;
+
+  const obj = result as Partial<ResultSetHeader>;
+
+  return (
+    typeof obj.affectedRows === 'number' &&
+    typeof obj.insertId === 'number' &&
+    typeof obj.warningStatus === 'number'
+  );
+};
+
 const sqlTableCheck = (tableName: string, schemaName: string): string => {
   return `SELECT TABLE_NAME as 'Table' FROM information_schema.tables WHERE TABLE_SCHEMA = '${schemaName}' AND TABLE_NAME = '${tableName}'`;
 };

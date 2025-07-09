@@ -1,5 +1,6 @@
 import { CustomerSegment } from '../utils/auvoInterfaces.ts';
 import BaseRepository from './baseRep.ts';
+import { bindPublicMethods } from '../utils/bindMethods.ts';
 
 class SegmentRepository extends BaseRepository<CustomerSegment> {
   protected tableName = 'auvo_segments';
@@ -10,6 +11,11 @@ class SegmentRepository extends BaseRepository<CustomerSegment> {
 
   protected get columns(): (keyof CustomerSegment)[] {
     return ['segmentId', 'description', 'registrationDate'];
+  }
+
+  constructor() {
+    super();
+    bindPublicMethods(this);
   }
 }
 

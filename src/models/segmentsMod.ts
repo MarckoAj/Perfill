@@ -3,15 +3,9 @@ import segmentRep from '../repositores/segmentRep.ts';
 import BaseModel from './baseMod.ts';
 
 class SegmentsModel extends BaseModel<Segment, CustomerSegment> {
-  protected repository = {
-    selectById: segmentRep.selectById,
-    update: segmentRep.updateEntity,
-    insert: segmentRep.insertEntity,
-  };
+  protected repository = segmentRep;
 
-  constructor() {
-    super('id');
-  }
+  protected mainKey: keyof CustomerSegment = 'segmentId';
 
   protected mapToDatabaseFormat(entity: Segment): CustomerSegment {
     return {
@@ -21,4 +15,5 @@ class SegmentsModel extends BaseModel<Segment, CustomerSegment> {
     };
   }
 }
+
 export default new SegmentsModel();

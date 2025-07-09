@@ -1,29 +1,36 @@
 import { UserRefactored } from '../utils/auvoInterfaces.ts';
 import BaseRepository from './baseRep.ts';
+import dotenv from 'dotenv';
+import { bindPublicMethods } from '../utils/bindMethods.ts';
+dotenv.config();
 
 class UserRepository extends BaseRepository<UserRefactored> {
+  protected get tableName(): string {
+    return 'auvo_users';
+  }
+
+  protected get primaryKey(): keyof UserRefactored {
+    return 'userId';
+  }
+
+  protected get columns(): (keyof UserRefactored)[] {
+    return [
+      'userId',
+      'active',
+      'externalId',
+      'name',
+      'login',
+      'email',
+      'jobPosition',
+      'fk_userType',
+      'address',
+      'registrationDate',
+    ];
+  }
   constructor() {
-    super({
-      tableName: 'auvo_users',
-      primaryKey: 'userId',
-      columns: [
-        'userId',
-        'active',
-        'externalId',
-        'name',
-        'login',
-        'email',
-        'jobPosition',
-        'fk_userType',
-        'address',
-        'registrationDate',
-      ],
-    });
+    super();
+    bindPublicMethods(this);
   }
 }
-
-const teste = new UserRepository();
-const data = await teste.selectById(1);
-console.log(data);
 
 export default new UserRepository();
