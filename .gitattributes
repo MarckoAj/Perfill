@@ -1,0 +1,40 @@
+# Usa LF como final de linha para todos os arquivos de texto
+* text=auto eol=lf
+
+# Arquivos TypeScript, JavaScript, JSON, Markdown, HTML, etc.
+*.ts     text eol=lf
+*.tsx    text eol=lf
+*.js     text eol=lf
+*.jsx    text eol=lf
+*.json   text eol=lf
+*.html   text eol=lf
+*.css    text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.env    text eol=lf
+*.sh     text eol=lf
+*.sql    text eol=lf
+
+# Arquivos de configuração
+*.eslintrc text eol=lf
+*.prettierrc text eol=lf
+*.gitignore text eol=lf
+*.gitattributes text eol=lf
+
+# Arquivos binários (não tentar converter nem aplicar diff)
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.ico    binary
+*.pdf    binary
+*.ttf    binary
+*.woff   binary
+*.woff2  binary
+*.eot    binary
+*.zip    binary
+
+# Evita conflitos de merge em arquivos de lock
+package-lock.json merge=union
+yarn.lock         merge=union
