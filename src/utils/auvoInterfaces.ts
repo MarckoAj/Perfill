@@ -1,3 +1,22 @@
+export interface AuvoResponse<T = unknown> {
+  result: T;
+}
+
+export interface PagedList<T> {
+  entityList: T[];
+  pagedSearchReturnData: {
+    order: number;
+    pageSize: number;
+    page: number;
+    totalItems: number;
+  };
+  links: {
+    href: string;
+    rel: string;
+    method: string;
+  }[];
+}
+
 export interface UserType {
   userTypeId: number;
   description?: string;
@@ -34,7 +53,7 @@ export interface TaskNotification {
   taskDelete: number;
 }
 
-export interface User {
+export interface AuvoUser {
   userID: number;
   externalId: string;
   name: string;
@@ -83,21 +102,74 @@ export interface UserRefactored {
   active: boolean;
 }
 
-export interface Group {
+export interface AuvoGroup {
   id: number;
   description: string;
 }
 
-export interface CustomerGroup extends Omit<Group, 'id'> {
+export interface CustomerGroup extends Omit<AuvoGroup, 'id'> {
   groupId: number;
 }
 
-export interface Segment {
+export interface AuvoSegment {
   id: number;
   description: string;
   registrationDate: string | null;
 }
 
-export interface CustomerSegment extends Omit<Segment, 'id'> {
+export interface AuvoCustomerSegment extends Omit<AuvoSegment, 'id'> {
   segmentId: number;
+}
+
+export interface AuvoCustomer {
+  id: number;
+  externalId?: string;
+  description?: string;
+  cpfCnpj?: string;
+  phoneNumber?: string[];
+  email?: string[];
+  manager?: string;
+  managerJobPosition?: string;
+  note?: string;
+  address?: string;
+  latitude?: number;
+  longitude?: number;
+  maximumVisitTime?: number;
+  unitMaximumTime?: number;
+  groupsId?: number[];
+  managerTeamsId?: number[];
+  managersId?: number[];
+  segmentId: number;
+  active?: boolean;
+  adressComplement?: string;
+  creationDate?: string;
+  contacts?: AuvoCustomerContact[];
+  dateLastUpdate?: string;
+  uriAttachments?: string[];
+}
+
+export interface AuvoCustomerContact {
+  id: number;
+  name: string;
+  jobPosition: string;
+  email: string;
+  phone: string;
+}
+
+export interface CustomerRefactored {
+  customerId: number;
+  fk_segmentId: number;
+  externalId?: string;
+  description?: string;
+  cpfCnpj?: string;
+  manager?: string;
+  note?: string;
+  address?: string;
+  addressComplement?: string;
+  latitude?: number;
+  longitude?: number;
+  uriAttachments?: string[];
+  active?: boolean;
+  dateLastUpdate?: string;
+  creationDate?: string;
 }

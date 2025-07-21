@@ -1,9 +1,9 @@
-import { User, UserRefactored, UserType } from '../utils/auvoInterfaces.ts';
+import { AuvoUser, UserRefactored, UserType } from '../utils/auvoInterfaces.ts';
 import { QueryResult } from '../infrastructure/database/queries.ts';
-import userRep from '../repositores/userRep.ts';
+import userRep from '../repositories/userRep.ts';
 import BaseModel from './baseMod.ts';
 
-type UserRequiredFields = Partial<Omit<User, 'userID' | 'UserType'>> & {
+type UserRequiredFields = Partial<Omit<AuvoUser, 'userID' | 'UserType'>> & {
   userID: number;
   userType: UserType;
 };
@@ -12,39 +12,24 @@ class UsersModel extends BaseModel<UserRequiredFields, UserRefactored> {
   protected repository = userRep;
   protected mainKey: keyof UserRefactored = 'userId';
 
-  protected mapToDatabaseFormat(user: User): UserRefactored {
-    const filterKeys: (keyof UserRefactored)[] = [
-      'externalId',
-      'name',
-      'login',
-      'email',
-      'jobPosition',
-      'fk_userType',
-      'address',
-      'registrationDate',
-    ];
-
-    const filteredUser: UserRefactored = {
+  protected mapToDatabaseFormat(user: AuvoUser): UserRefactored {
+    const mappedUser: UserRefactored = {
       userId: user.userID,
+      externalId: user.externalId,
+      name: user.name,
+      login: user.login,
+      email: user.email,
+      jobPosition: user.jobPosition,
+      fk_userType: user.userType.userTypeId,
+      address: user.address,
+      registrationDate: user.registrationDate,
       active: true,
     };
 
-    for (const key of filterKeys) {
-      if (
-        key === 'fk_userType' &&
-        typeof user.userType === 'object' &&
-        'userTypeId' in user.userType
-      ) {
-        filteredUser.fk_userType = user.userType.userTypeId;
-      } else {
-        filteredUser[key] = user[key as keyof User] as never;
-      }
-    }
-
-    return filteredUser;
+    return mappedUser;
   }
 
-  async desactivateUser(user: User): Promise<QueryResult | null> {
+  async desactivateUser(user: AuvoUser): Promise<QueryResult | null> {
     try {
       const userRefactored = this.mapToDatabaseFormat(user);
       const userInDatabase = await this.repository.selectById(user.userID);

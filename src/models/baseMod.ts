@@ -1,5 +1,5 @@
 import { QueryResult } from '../infrastructure/database/queries.ts';
-import BaseRepository from '../repositores/baseRep.ts';
+import BaseRepository from '../repositories/baseRep.ts';
 
 abstract class BaseModel<U, T extends object> {
   protected abstract repository: BaseRepository<T>;

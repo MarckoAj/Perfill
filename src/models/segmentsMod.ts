@@ -1,13 +1,13 @@
-import { Segment, CustomerSegment } from '../utils/auvoInterfaces.ts';
-import segmentRep from '../repositores/segmentRep.ts';
+import { AuvoSegment, AuvoCustomerSegment } from '../utils/auvoInterfaces.ts';
+import segmentRep from '../repositories/segmentRep.ts';
 import BaseModel from './baseMod.ts';
 
-class SegmentsModel extends BaseModel<Segment, CustomerSegment> {
+class SegmentsModel extends BaseModel<AuvoSegment, AuvoCustomerSegment> {
   protected repository = segmentRep;
 
-  protected mainKey: keyof CustomerSegment = 'segmentId';
+  protected mainKey: keyof AuvoCustomerSegment = 'segmentId';
 
-  protected mapToDatabaseFormat(entity: Segment): CustomerSegment {
+  protected mapToDatabaseFormat(entity: AuvoSegment): AuvoCustomerSegment {
     return {
       segmentId: entity.id,
       description: entity.description,

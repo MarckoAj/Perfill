@@ -1,8 +1,6 @@
 import { UserRefactored } from '../utils/auvoInterfaces.ts';
 import BaseRepository from './baseRep.ts';
-import dotenv from 'dotenv';
 import { bindPublicMethods } from '../utils/bindMethods.ts';
-dotenv.config();
 
 class UserRepository extends BaseRepository<UserRefactored> {
   protected get tableName(): string {
