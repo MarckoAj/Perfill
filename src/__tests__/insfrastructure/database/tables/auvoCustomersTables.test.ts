@@ -61,7 +61,100 @@ import {
         sqlColumnCheck('auvo_customers', process.env.DBNAME as string),
       )) as RowDataPacket[];
       const columnNames = result.map((item) => item.COLUMN_NAME);
-      expect(columnNames).toEqual(columnsList.sort());
+      expect(columnNames.sort()).toEqual(columnsList.sort());
+    });
+  });
+
+  describe('Verifica a criação da tabela auvo_customers_groups', () => {
+    it('Deve verificar se a tabela existe', async () => {
+      const sql = sqlTableCheck('auvo_customers_groups', process.env.DBNAME as string);
+      const result = (await executeQuery(sql)) as RowDataPacket[];
+      expect(result.length).toBe(1);
+    });
+
+    it('Deve verificar as colunas', async () => {
+      const columnsList = ['fk_customerId', 'fk_groupId'];
+      const result = (await executeQuery(
+        sqlColumnCheck('auvo_customers_groups', process.env.DBNAME as string),
+      )) as RowDataPacket[];
+      const columnNames = result.map((item) => item.COLUMN_NAME);
+      expect(columnNames.sort()).toEqual(columnsList.sort());
+    });
+  });
+
+  describe('Verifica a criação da tabela auvo_customers_managers', () => {
+    it('Deve verificar se a tabela existe', async () => {
+      const sql = sqlTableCheck('auvo_customers_managers', process.env.DBNAME as string);
+      const result = (await executeQuery(sql)) as RowDataPacket[];
+      expect(result.length).toBe(1);
+    });
+
+    it('Deve verificar as colunas', async () => {
+      const columnsList = ['fk_userId', 'fk_customerId'];
+      const result = (await executeQuery(
+        sqlColumnCheck('auvo_customers_managers', process.env.DBNAME as string),
+      )) as RowDataPacket[];
+      const columnNames = result.map((item) => item.COLUMN_NAME);
+      expect(columnNames.sort()).toEqual(columnsList.sort());
+    });
+  });
+
+  describe('Verifica a criação da tabela auvo_customers_contacts', () => {
+    it('Deve verificar se a tabela existe', async () => {
+      const sql = sqlTableCheck('auvo_customers_contacts', process.env.DBNAME as string);
+      const result = (await executeQuery(sql)) as RowDataPacket[];
+      expect(result.length).toBe(1);
+    });
+
+    it('Deve verificar as colunas', async () => {
+      const columnsList = [
+        'contactId',
+        'fk_customerId',
+        'description',
+        'contactJobPosition',
+        'contactEmail',
+        'contactPhone',
+        'contactName',
+      ];
+      const result = (await executeQuery(
+        sqlColumnCheck('auvo_customers_contacts', process.env.DBNAME as string),
+      )) as RowDataPacket[];
+      const columnNames = result.map((item) => item.COLUMN_NAME);
+      expect(columnNames.sort()).toEqual(columnsList.sort());
+    });
+  });
+
+  describe('Verifica a criação da tabela auvo_customers_uri_attachments', () => {
+    it('Deve verificar se a tabela existe', async () => {
+      const sql = sqlTableCheck('auvo_customers_uri_attachments', process.env.DBNAME as string);
+      const result = (await executeQuery(sql)) as RowDataPacket[];
+      expect(result.length).toBe(1);
+    });
+
+    it('Deve verificar as colunas', async () => {
+      const columnsList = ['fk_customerId', 'uri'];
+      const result = (await executeQuery(
+        sqlColumnCheck('auvo_customers_uri_attachments', process.env.DBNAME as string),
+      )) as RowDataPacket[];
+      const columnNames = result.map((item) => item.COLUMN_NAME);
+      expect(columnNames.sort()).toEqual(columnsList.sort());
+    });
+  });
+
+  describe('Verifica a criação da tabela auvo_customers_emails', () => {
+    it('Deve verificar se a tabela existe', async () => {
+      const sql = sqlTableCheck('auvo_customers_emails', process.env.DBNAME as string);
+      const result = (await executeQuery(sql)) as RowDataPacket[];
+      expect(result.length).toBe(1);
+    });
+
+    it('Deve verificar as colunas', async () => {
+      const columnsList = ['fk_customerId', 'customer_email'];
+      const result = (await executeQuery(
+        sqlColumnCheck('auvo_customers_emails', process.env.DBNAME as string),
+      )) as RowDataPacket[];
+      const columnNames = result.map((item) => item.COLUMN_NAME);
+      expect(columnNames.sort()).toEqual(columnsList.sort());
     });
   });
 
