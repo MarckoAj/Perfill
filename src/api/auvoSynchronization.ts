@@ -1,4 +1,4 @@
-// import AuvoService from './auvoApiRequests.ts';
+import auvoService from './auvoApiRequests.ts';
 // import usersMod from '../models/usersMod.ts';
 // import { User } from '../utils/auvoInterfaces.ts';
 
@@ -100,3 +100,18 @@
 //     },
 //   },
 // ];
+
+class SyncronizationEntity {
+  async chekAuxiliaresEntietes(entity) {
+    const entitykeyInDb = await auxliarRep.selectById(id);
+    if (!entitykeyInDb) {
+      const requestedEntity = await auvoService.handleEntityRequest();
+      if (requestedEntity) {
+        await auxiliarRep.SyncronizationEntity();
+      } else {
+        throw new console.error(`entidade com id ${entity.Id}não encontrada`);
+      }
+    }
+  }
+}
+export default new SyncronizationEntity();

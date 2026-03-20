@@ -1,5 +1,5 @@
 import BaseModel from './baseMod.ts';
-import customersRep from '../repositories/customersRep.ts';
+import customersRep from '../repositories/customerRep.ts';
 import { AuvoCustomer, CustomerRefactored } from '../utils/auvoInterfaces.ts';
 
 class CustomersMod extends BaseModel<AuvoCustomer, CustomerRefactored> {

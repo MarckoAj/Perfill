@@ -173,3 +173,33 @@ export interface CustomerRefactored {
   dateLastUpdate?: string;
   creationDate?: string;
 }
+
+export interface customer_emails {
+  fk_customerId: number;
+  customer_email: string;
+}
+
+export interface customer_groups {
+  fk_customerId: number;
+  fk_groupId: number;
+}
+
+export interface customer_contacts {
+  contactId: number;
+  fk_customerId: number;
+  description: string;
+  contactJobPosition: string;
+  contactEmail: string;
+  contactPhone: string;
+  contactName: string;
+}
+
+export interface customer_URIattachments {
+  fk_customerId: number;
+  uri: string;
+}
+
+export interface customer_managers {
+  fk_userId: number;
+  fk_customerId: number;
+}
